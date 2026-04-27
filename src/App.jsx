@@ -50,21 +50,50 @@ function Hero({ userProfile }) {
 
   return (
     <section className="hero">
+      <div className="hero-mesh hero-mesh-1"></div>
+      <div className="hero-mesh hero-mesh-2"></div>
+      <div className="hero-mesh hero-mesh-3"></div>
       <div className="container hero-container animate-fade-in">
         <div className="hero-content">
-          <div className="badge">2026 Elections</div>
-          <h1>Your Guide to <span className="text-gradient">{welcomeTitle}</span></h1>
-          <p className="hero-subtitle">
-            {welcomeMessage}
-          </p>
+          <div className="badge hero-badge">2026 Elections</div>
+          <div className="hero-copy">
+            <h1>Your Guide to <span className="text-gradient">{welcomeTitle}</span></h1>
+            <p className="hero-subtitle">
+              {welcomeMessage}
+            </p>
+          </div>
           <div className="hero-actions">
             <a href="#journey" className="btn btn-primary">Start the Guide</a>
             <a href="#timeline" className="btn btn-secondary">View Timeline</a>
           </div>
+          <div className="hero-trust-row">
+            <div className="hero-trust-pill glass-panel">
+              <CheckCircle2 size={16} />
+              <span>Trusted election guidance</span>
+            </div>
+            <div className="hero-trust-pill glass-panel">
+              <Globe size={16} />
+              <span>Accessible for every voter</span>
+            </div>
+          </div>
         </div>
         <div className="hero-visual">
-          <div className="abstract-shape shape-1"></div>
-          <div className="abstract-shape shape-2"></div>
+          <div className="hero-orbit hero-orbit-1"></div>
+          <div className="hero-orbit hero-orbit-2"></div>
+          <div className="hero-core-panel glass-panel">
+            <div className="hero-core-label">IndiaVoteAssist</div>
+            <div className="hero-core-title">Calm, clear voter guidance with AI at the center.</div>
+            <div className="hero-core-grid">
+              <div className="hero-core-metric">
+                <span className="hero-core-metric-value">01</span>
+                <span className="hero-core-metric-label">Understand the process</span>
+              </div>
+              <div className="hero-core-metric">
+                <span className="hero-core-metric-value">02</span>
+                <span className="hero-core-metric-label">Track each election phase</span>
+              </div>
+            </div>
+          </div>
           <div className="glass-panel stat-card card-1">
             <span className="stat-number">4</span>
             <span className="stat-label">Simple Steps</span>
@@ -173,6 +202,16 @@ function Timeline({ userProfile }) {
     };
   });
 
+  const defaultActiveIndex = personalizedEvents.findIndex(event => event.status === 'upcoming');
+  const highlightedIndex = activeEvent
+    ? personalizedEvents.findIndex(event => event.id === activeEvent)
+    : defaultActiveIndex >= 0
+      ? defaultActiveIndex
+      : personalizedEvents.length - 1;
+  const timelineProgress = personalizedEvents.length > 1
+    ? `${(highlightedIndex / (personalizedEvents.length - 1)) * 100}%`
+    : '0%';
+
   return (
     <section id="timeline" className="timeline-section">
       <div className="container">
@@ -186,26 +225,33 @@ function Timeline({ userProfile }) {
         </div>
 
         <div className="timeline-container">
-          <div className="timeline-line"></div>
+          <div className="timeline-track">
+            <div className="timeline-line"></div>
+            <div className="timeline-line-fill" style={{ height: timelineProgress }}></div>
+          </div>
 
           {personalizedEvents.map((event, index) => (
             <div
               key={event.id}
-              className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'} ${activeEvent === event.id ? 'active' : ''}`}
+              className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'} ${activeEvent === event.id ? 'active' : ''} ${event.status}`}
               onMouseEnter={() => setActiveEvent(event.id)}
               onMouseLeave={() => setActiveEvent(null)}
             >
               <div className="timeline-dot">
+                <div className="timeline-dot-ring"></div>
                 <Calendar size={16} />
               </div>
 
               <div className="timeline-content glass-panel">
+                <div className="timeline-eyebrow">Election Phase {event.id}</div>
                 <div className="timeline-date">{event.date}</div>
                 <h3>{event.title}</h3>
                 <p>{event.description}</p>
-                <div className={`status-badge ${event.status}`}>
-                  {event.status === 'past' ? <CheckCircle2 size={14} /> : <Clock size={14} />}
-                  <span>{event.status === 'past' ? 'Completed' : 'Upcoming'}</span>
+                <div className="timeline-card-footer">
+                  <div className={`status-badge ${event.status}`}>
+                    {event.status === 'past' ? <CheckCircle2 size={14} /> : <Clock size={14} />}
+                    <span>{event.status === 'past' ? 'Completed' : 'Upcoming'}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -270,6 +316,9 @@ const JOURNEY_STEPS = [
 
 function GuidedJourney() {
   const [activeStep, setActiveStep] = useState(0);
+  const journeyProgress = JOURNEY_STEPS.length > 1
+    ? `${(activeStep / (JOURNEY_STEPS.length - 1)) * 100}%`
+    : '0%';
 
   const nextStep = () => {
     if (activeStep < JOURNEY_STEPS.length - 1) setActiveStep(prev => prev + 1);
@@ -288,53 +337,64 @@ function GuidedJourney() {
         </div>
 
         <div className="journey-layout">
-          {/* Tracker Map */}
-          <div className="journey-tracker">
-            <div className="tracker-line"></div>
-            {JOURNEY_STEPS.map((step, index) => (
-              <div
-                key={step.id}
-                className={`tracker-node ${index === activeStep ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}
-                onClick={() => setActiveStep(index)}
-              >
-                <div className="node-icon">{step.icon}</div>
-                <div className="node-label">Step {step.id}</div>
-              </div>
-            ))}
+          <div className="journey-tracker-shell glass-panel">
+            <div className="journey-tracker">
+              <div className="tracker-line"></div>
+              <div className="tracker-line-fill" style={{ width: journeyProgress }}></div>
+              {JOURNEY_STEPS.map((step, index) => (
+                <button
+                  key={step.id}
+                  type="button"
+                  className={`tracker-node ${index === activeStep ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}
+                  onClick={() => setActiveStep(index)}
+                >
+                  <div className="node-icon">{step.icon}</div>
+                  <div className="node-copy">
+                    <div className="node-step">Step {step.id}</div>
+                    <div className="node-label">{step.title}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Active Step Content */}
           <div className="journey-content glass-panel">
-            <div className="step-badge">Step {JOURNEY_STEPS[activeStep].id} of {JOURNEY_STEPS.length}</div>
+            <div key={JOURNEY_STEPS[activeStep].id} className="journey-stage animate-step-panel">
+              <div className="step-badge">Step {JOURNEY_STEPS[activeStep].id} of {JOURNEY_STEPS.length}</div>
 
-            <div className="step-header">
-              <div className="step-icon-large text-gradient">
-                {JOURNEY_STEPS[activeStep].icon}
+              <div className="step-header">
+                <div className="step-icon-large text-gradient">
+                  {JOURNEY_STEPS[activeStep].icon}
+                </div>
+                <div className="step-header-copy">
+                  <div className="step-kicker">Interactive Voter Path</div>
+                  <h3 className="step-title">{JOURNEY_STEPS[activeStep].title}</h3>
+                </div>
               </div>
-              <h3 className="step-title">{JOURNEY_STEPS[activeStep].title}</h3>
-            </div>
 
-            <p className="step-description">{JOURNEY_STEPS[activeStep].description}</p>
+              <p className="step-description">{JOURNEY_STEPS[activeStep].description}</p>
 
-            <div className="step-action">
-              <strong>Tip:</strong> {JOURNEY_STEPS[activeStep].action}
-            </div>
+              <div className="step-action">
+                <div className="step-action-label">Pro Tip</div>
+                <strong>Tip:</strong> {JOURNEY_STEPS[activeStep].action}
+              </div>
 
-            <div className="step-controls">
-              <button
-                className="btn btn-secondary"
-                onClick={prevStep}
-                disabled={activeStep === 0}
-              >
-                <ChevronLeft size={18} /> Previous
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={nextStep}
-                disabled={activeStep === JOURNEY_STEPS.length - 1}
-              >
-                Next <ChevronRight size={18} />
-              </button>
+              <div className="step-controls">
+                <button
+                  className="btn btn-secondary"
+                  onClick={prevStep}
+                  disabled={activeStep === 0}
+                >
+                  <ChevronLeft size={18} /> Previous
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={nextStep}
+                  disabled={activeStep === JOURNEY_STEPS.length - 1}
+                >
+                  Next <ChevronRight size={18} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -391,17 +451,19 @@ function ELI15() {
         </div>
 
         <div className="eli15-grid">
-          <div className="terms-list">
-            {ELI15_TERMS.map(term => (
-              <button
-                key={term.id}
-                className={`term-btn ${activeTerm === term.id ? 'active' : ''}`}
-                onClick={() => setActiveTerm(term.id)}
-              >
-                <span className="term-icon">{term.icon}</span>
-                <span className="term-name">{term.term}</span>
-              </button>
-            ))}
+          <div className="terms-surface glass-panel">
+            <div className="terms-list">
+              {ELI15_TERMS.map(term => (
+                <button
+                  key={term.id}
+                  className={`term-btn ${activeTerm === term.id ? 'active' : ''}`}
+                  onClick={() => setActiveTerm(term.id)}
+                >
+                  <span className="term-icon">{term.icon}</span>
+                  <span className="term-name">{term.term}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="term-explanation glass-panel">
@@ -920,6 +982,8 @@ function AssistantChat() {
         </div>
 
         <div className="chat-container glass-panel">
+          <div className="chat-aura chat-aura-1"></div>
+          <div className="chat-aura chat-aura-2"></div>
           <div className="chat-messages" ref={chatContainerRef}>
             {messages.map((msg) => (
               <div key={msg.id} className={`message-wrapper ${msg.sender}`}>
@@ -999,6 +1063,9 @@ const STATES = [
   "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu",
   "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
 ];
+
+const PROFILE_STORAGE_KEY = 'voterProfile_v3';
+const hasRequiredProfile = (profile) => Boolean(profile?.age && profile?.state);
 
 function PersonalizedGuidance({ onComplete }) {
   const [step, setStep] = useState(1);
@@ -1145,13 +1212,14 @@ function PersonalizedGuidance({ onComplete }) {
 // ========== App.jsx ==========
 function App() {
   const [userProfile, setUserProfile] = useState(() => {
-    const saved = localStorage.getItem('voterProfile_v2');
+    const saved = localStorage.getItem(PROFILE_STORAGE_KEY);
     return saved ? JSON.parse(saved) : null;
   });
+  const shouldShowOnboarding = !hasRequiredProfile(userProfile);
 
   const handleOnboardingComplete = (profile) => {
     setUserProfile(profile);
-    localStorage.setItem('voterProfile_v2', JSON.stringify(profile));
+    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
     window.scrollTo(0, 0);
   };
 
@@ -1159,9 +1227,9 @@ function App() {
   return (
     <>
       <Header />
-      {!userProfile && <PersonalizedGuidance onComplete={handleOnboardingComplete} />}
+      {shouldShowOnboarding && <PersonalizedGuidance onComplete={handleOnboardingComplete} />}
 
-      <main className="app-shell" style={{ filter: !userProfile ? 'blur(4px)' : 'none', transition: 'filter 0.3s ease' }}>
+      <main className="app-shell" style={{ filter: shouldShowOnboarding ? 'blur(4px)' : 'none', transition: 'filter 0.3s ease' }}>
         <Hero userProfile={userProfile} />
         <Timeline userProfile={userProfile} />
         <GuidedJourney />
