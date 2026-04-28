@@ -1,6 +1,33 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Globe, Calendar, CheckCircle2, Clock, BookOpen, Cpu, FileText, Map as MapIcon, XCircle, Search, MapPin, Phone, ExternalLink, Send, Bot, User, Sparkles, Mic, CreditCard, CheckCircle, UserPlus, Map, Vote, BarChart, ChevronRight, ChevronLeft } from 'lucide-react';
-import './index.css';
+import React, { useState, useRef, useEffect } from "react";
+import {
+  Globe,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  BookOpen,
+  Cpu,
+  FileText,
+  Map as MapIcon,
+  XCircle,
+  Search,
+  MapPin,
+  Phone,
+  ExternalLink,
+  Send,
+  Bot,
+  User,
+  Sparkles,
+  Mic,
+  CreditCard,
+  CheckCircle,
+  UserPlus,
+  Map,
+  Vote,
+  BarChart,
+  ChevronRight,
+  ChevronLeft,
+} from "lucide-react";
+import "./index.css";
 
 // ========== Header.jsx ==========
 function Header() {
@@ -9,12 +36,21 @@ function Header() {
       <div className="container header-container">
         <div className="logo">
           <div className="logo-icon">🇮🇳</div>
-          <span className="logo-text">India<span className="text-gradient">VoteAssist</span></span>
+          <span className="logo-text">
+            India<span className="text-gradient">VoteAssist</span>
+          </span>
         </div>
         <nav className="nav-links">
           <div className="language-selector">
-            <Globe size={18} className="text-muted" />
-            <select className="language-select">
+            <Globe size={18} className="text-muted" aria-hidden="true" />
+            <label htmlFor="language-select" className="sr-only">
+              Select Language
+            </label>
+            <select
+              id="language-select"
+              className="language-select"
+              aria-label="Select Language"
+            >
               <option value="en">English</option>
               <option value="hi">हिंदी (Hindi)</option>
               <option value="mr">मराठी (Marathi)</option>
@@ -23,7 +59,9 @@ function Header() {
           </div>
           <a href="#journey">Journey</a>
           <a href="#eli15">Learn</a>
-          <a href="#assistant" className="btn btn-primary btn-sm">Ask Assistant</a>
+          <a href="#assistant" className="btn btn-primary btn-sm">
+            Ask Assistant
+          </a>
         </nav>
       </div>
     </header>
@@ -33,18 +71,22 @@ function Header() {
 // ========== Hero.jsx ==========
 function Hero({ userProfile }) {
   let welcomeTitle = "Making a Difference";
-  let welcomeMessage = "Navigate the election process with ease. Understand the timeline, learn the steps to vote, and ask our AI assistant any questions you have.";
+  let welcomeMessage =
+    "Navigate the election process with ease. Understand the timeline, learn the steps to vote, and ask our AI assistant any questions you have.";
 
   if (userProfile) {
-    if (userProfile.age === '18-21') {
+    if (userProfile.age === "18-21") {
       welcomeTitle = "Your First Election";
-      welcomeMessage = "Welcome to your first election! Let's get you registered and ready to make your voice heard.";
-    } else if (userProfile.age === 'under18') {
+      welcomeMessage =
+        "Welcome to your first election! Let's get you registered and ready to make your voice heard.";
+    } else if (userProfile.age === "under18") {
       welcomeTitle = "Future Voter";
-      welcomeMessage = "Welcome future voter! Let's learn about the democratic process so you're ready when your time comes.";
-    } else if (userProfile.age === 'over21') {
+      welcomeMessage =
+        "Welcome future voter! Let's learn about the democratic process so you're ready when your time comes.";
+    } else if (userProfile.age === "over21") {
       welcomeTitle = "Making a Difference";
-      welcomeMessage = "Welcome back! Let's get you ready for election day and ensure your voter details are up to date.";
+      welcomeMessage =
+        "Welcome back! Let's get you ready for election day and ensure your voter details are up to date.";
     }
   }
 
@@ -57,14 +99,19 @@ function Hero({ userProfile }) {
         <div className="hero-content">
           <div className="badge hero-badge">2026 Elections</div>
           <div className="hero-copy">
-            <h1>Your Guide to <span className="text-gradient">{welcomeTitle}</span></h1>
-            <p className="hero-subtitle">
-              {welcomeMessage}
-            </p>
+            <h1>
+              Your Guide to{" "}
+              <span className="text-gradient">{welcomeTitle}</span>
+            </h1>
+            <p className="hero-subtitle">{welcomeMessage}</p>
           </div>
           <div className="hero-actions">
-            <a href="#journey" className="btn btn-primary">Start the Guide</a>
-            <a href="#timeline" className="btn btn-secondary">View Timeline</a>
+            <a href="#journey" className="btn btn-primary">
+              Start the Guide
+            </a>
+            <a href="#timeline" className="btn btn-secondary">
+              View Timeline
+            </a>
           </div>
           <div className="hero-trust-row">
             <div className="hero-trust-pill glass-panel">
@@ -82,15 +129,21 @@ function Hero({ userProfile }) {
           <div className="hero-orbit hero-orbit-2"></div>
           <div className="hero-core-panel glass-panel">
             <div className="hero-core-label">IndiaVoteAssist</div>
-            <div className="hero-core-title">Calm, clear voter guidance with AI at the center.</div>
+            <div className="hero-core-title">
+              Calm, clear voter guidance with AI at the center.
+            </div>
             <div className="hero-core-grid">
               <div className="hero-core-metric">
                 <span className="hero-core-metric-value">01</span>
-                <span className="hero-core-metric-label">Understand the process</span>
+                <span className="hero-core-metric-label">
+                  Understand the process
+                </span>
               </div>
               <div className="hero-core-metric">
                 <span className="hero-core-metric-value">02</span>
-                <span className="hero-core-metric-label">Track each election phase</span>
+                <span className="hero-core-metric-label">
+                  Track each election phase
+                </span>
               </div>
             </div>
           </div>
@@ -112,39 +165,44 @@ function Hero({ userProfile }) {
 const timelineEvents = [
   {
     id: 1,
-    title: 'Announcement of Elections',
-    date: 'Phase 1',
-    description: 'The Election Commission announces the schedule. The Model Code of Conduct (MCC) comes into immediate effect.',
-    status: 'upcoming'
+    title: "Announcement of Elections",
+    date: "Phase 1",
+    description:
+      "The Election Commission announces the schedule. The Model Code of Conduct (MCC) comes into immediate effect.",
+    status: "upcoming",
   },
   {
     id: 2,
-    title: 'Nomination Filing',
-    date: 'Phase 2',
-    description: 'Candidates file their nomination papers with the Returning Officer. After scrutiny, candidates can withdraw.',
-    status: 'upcoming'
+    title: "Nomination Filing",
+    date: "Phase 2",
+    description:
+      "Candidates file their nomination papers with the Returning Officer. After scrutiny, candidates can withdraw.",
+    status: "upcoming",
   },
   {
     id: 3,
-    title: 'Campaign Period',
-    date: 'Phase 3',
-    description: 'Political parties and candidates campaign through public meetings, rallies, and media. Ends 48 hours before polling.',
-    status: 'upcoming'
+    title: "Campaign Period",
+    date: "Phase 3",
+    description:
+      "Political parties and candidates campaign through public meetings, rallies, and media. Ends 48 hours before polling.",
+    status: "upcoming",
   },
   {
     id: 4,
-    title: 'Polling Dates',
-    date: 'Phase 4',
-    description: 'Voting takes place across different regions (often in multiple phases for general elections). EVMs and VVPATs are used.',
-    status: 'upcoming'
+    title: "Polling Dates",
+    date: "Phase 4",
+    description:
+      "Voting takes place across different regions (often in multiple phases for general elections). EVMs and VVPATs are used.",
+    status: "upcoming",
   },
   {
     id: 5,
-    title: 'Counting & Results',
-    date: 'Final Phase',
-    description: 'Votes are counted on a designated day under heavy security, and the results are officially declared by the ECI.',
-    status: 'upcoming'
-  }
+    title: "Counting & Results",
+    date: "Final Phase",
+    description:
+      "Votes are counted on a designated day under heavy security, and the results are officially declared by the ECI.",
+    status: "upcoming",
+  },
 ];
 
 function Timeline({ userProfile }) {
@@ -153,26 +211,74 @@ function Timeline({ userProfile }) {
   // Helper function to get mock dates based on state
   const getStateDates = (state) => {
     // Return specific mock dates for demonstration purposes
-    if (state === 'Maharashtra') {
-      return ['March 15, 2026', 'April 2, 2026', 'April 3 - April 17, 2026', 'April 19, 2026', 'May 23, 2026'];
-    } else if (state === 'Tamil Nadu') {
-      return ['March 15, 2026', 'March 25, 2026', 'March 26 - April 10, 2026', 'April 12, 2026', 'May 23, 2026'];
-    } else if (state === 'Uttar Pradesh') {
-      return ['March 15, 2026', 'April 10, 2026', 'April 11 - May 5, 2026', 'May 7 (Phase 1)', 'May 23, 2026'];
-    } else if (state === 'Karnataka') {
-      return ['March 15, 2026', 'April 5, 2026', 'April 6 - April 24, 2026', 'April 26, 2026', 'May 23, 2026'];
-    } else if (state === 'West Bengal') {
-      return ['March 15, 2026', 'April 12, 2026', 'April 13 - May 10, 2026', 'May 12 (Phase 1)', 'May 23, 2026'];
-    } else if (state === 'Bihar') {
-      return ['March 15, 2026', 'April 8, 2026', 'April 9 - May 5, 2026', 'May 7 (Phase 1)', 'May 23, 2026'];
-    } else if (state === 'Delhi') {
-      return ['March 15, 2026', 'May 1, 2026', 'May 2 - May 15, 2026', 'May 17, 2026', 'May 23, 2026'];
+    if (state === "Maharashtra") {
+      return [
+        "March 15, 2026",
+        "April 2, 2026",
+        "April 3 - April 17, 2026",
+        "April 19, 2026",
+        "May 23, 2026",
+      ];
+    } else if (state === "Tamil Nadu") {
+      return [
+        "March 15, 2026",
+        "March 25, 2026",
+        "March 26 - April 10, 2026",
+        "April 12, 2026",
+        "May 23, 2026",
+      ];
+    } else if (state === "Uttar Pradesh") {
+      return [
+        "March 15, 2026",
+        "April 10, 2026",
+        "April 11 - May 5, 2026",
+        "May 7 (Phase 1)",
+        "May 23, 2026",
+      ];
+    } else if (state === "Karnataka") {
+      return [
+        "March 15, 2026",
+        "April 5, 2026",
+        "April 6 - April 24, 2026",
+        "April 26, 2026",
+        "May 23, 2026",
+      ];
+    } else if (state === "West Bengal") {
+      return [
+        "March 15, 2026",
+        "April 12, 2026",
+        "April 13 - May 10, 2026",
+        "May 12 (Phase 1)",
+        "May 23, 2026",
+      ];
+    } else if (state === "Bihar") {
+      return [
+        "March 15, 2026",
+        "April 8, 2026",
+        "April 9 - May 5, 2026",
+        "May 7 (Phase 1)",
+        "May 23, 2026",
+      ];
+    } else if (state === "Delhi") {
+      return [
+        "March 15, 2026",
+        "May 1, 2026",
+        "May 2 - May 15, 2026",
+        "May 17, 2026",
+        "May 23, 2026",
+      ];
     } else if (state) {
       // Generic specific dates for other selected states
-      return ['March 15, 2026', 'April 15, 2026', 'April 16 - May 10, 2026', 'May 12, 2026', 'May 23, 2026'];
+      return [
+        "March 15, 2026",
+        "April 15, 2026",
+        "April 16 - May 10, 2026",
+        "May 12, 2026",
+        "May 23, 2026",
+      ];
     }
     // Fallback if no state selected
-    return ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Final Phase'];
+    return ["Phase 1", "Phase 2", "Phase 3", "Phase 4", "Final Phase"];
   };
 
   const dates = getStateDates(userProfile?.state);
@@ -180,62 +286,75 @@ function Timeline({ userProfile }) {
 
   const personalizedEvents = timelineEvents.map((event, index) => {
     const dateStr = dates[index];
-    let status = 'upcoming';
+    let status = "upcoming";
 
     // Simple parsing for mock dates
     try {
       const eventDate = new Date(dateStr);
       if (!isNaN(eventDate.getTime())) {
-        status = eventDate < now ? 'past' : 'upcoming';
-      } else if (dateStr.includes('Phase')) {
+        status = eventDate < now ? "past" : "upcoming";
+      } else if (dateStr.includes("Phase")) {
         // Fallback for non-specific dates
-        status = 'upcoming';
+        status = "upcoming";
       }
     } catch {
-      status = 'upcoming';
+      status = "upcoming";
     }
 
     return {
       ...event,
       date: dateStr,
-      status: status
+      status: status,
     };
   });
 
-  const defaultActiveIndex = personalizedEvents.findIndex(event => event.status === 'upcoming');
+  const defaultActiveIndex = personalizedEvents.findIndex(
+    (event) => event.status === "upcoming",
+  );
   const highlightedIndex = activeEvent
-    ? personalizedEvents.findIndex(event => event.id === activeEvent)
+    ? personalizedEvents.findIndex((event) => event.id === activeEvent)
     : defaultActiveIndex >= 0
       ? defaultActiveIndex
       : personalizedEvents.length - 1;
-  const timelineProgress = personalizedEvents.length > 1
-    ? `${(highlightedIndex / (personalizedEvents.length - 1)) * 100}%`
-    : '0%';
+  const timelineProgress =
+    personalizedEvents.length > 1
+      ? `${(highlightedIndex / (personalizedEvents.length - 1)) * 100}%`
+      : "0%";
 
   return (
     <section id="timeline" className="timeline-section">
       <div className="container">
         <div className="section-header">
-          <h2>Election <span className="text-gradient">Timeline</span></h2>
+          <h2>
+            Election <span className="text-gradient">Timeline</span>
+          </h2>
           <p className="text-muted">
             {userProfile?.state
               ? `Here are the critical dates for ${userProfile.state}.`
-              : 'Stay on top of critical dates to ensure your voice is heard.'}
+              : "Stay on top of critical dates to ensure your voice is heard."}
           </p>
         </div>
 
         <div className="timeline-container">
           <div className="timeline-track">
             <div className="timeline-line"></div>
-            <div className="timeline-line-fill" style={{ height: timelineProgress }}></div>
+            <div
+              className="timeline-line-fill"
+              style={{ height: timelineProgress }}
+            ></div>
           </div>
 
           {personalizedEvents.map((event, index) => (
             <div
               key={event.id}
-              className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'} ${activeEvent === event.id ? 'active' : ''} ${event.status}`}
+              role="article"
+              tabIndex={0}
+              aria-label={`Election Phase ${event.id}: ${event.title}`}
+              className={`timeline-item ${index % 2 === 0 ? "left" : "right"} ${activeEvent === event.id ? "active" : ""} ${event.status}`}
               onMouseEnter={() => setActiveEvent(event.id)}
               onMouseLeave={() => setActiveEvent(null)}
+              onFocus={() => setActiveEvent(event.id)}
+              onBlur={() => setActiveEvent(null)}
             >
               <div className="timeline-dot">
                 <div className="timeline-dot-ring"></div>
@@ -243,14 +362,22 @@ function Timeline({ userProfile }) {
               </div>
 
               <div className="timeline-content glass-panel">
-                <div className="timeline-eyebrow">Election Phase {event.id}</div>
+                <div className="timeline-eyebrow">
+                  Election Phase {event.id}
+                </div>
                 <div className="timeline-date">{event.date}</div>
                 <h3>{event.title}</h3>
                 <p>{event.description}</p>
                 <div className="timeline-card-footer">
                   <div className={`status-badge ${event.status}`}>
-                    {event.status === 'past' ? <CheckCircle2 size={14} /> : <Clock size={14} />}
-                    <span>{event.status === 'past' ? 'Completed' : 'Upcoming'}</span>
+                    {event.status === "past" ? (
+                      <CheckCircle2 size={14} />
+                    ) : (
+                      <Clock size={14} />
+                    )}
+                    <span>
+                      {event.status === "past" ? "Completed" : "Upcoming"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -267,65 +394,74 @@ const JOURNEY_STEPS = [
     id: 1,
     title: "Eligibility",
     icon: <CheckCircle />,
-    description: "To vote in India, you must be a citizen of India and 18 years of age or older as of January 1st of the year the electoral roll is revised.",
-    action: "Check your age and citizenship status."
+    description:
+      "To vote in India, you must be a citizen of India and 18 years of age or older as of January 1st of the year the electoral roll is revised.",
+    action: "Check your age and citizenship status.",
   },
   {
     id: 2,
     title: "Voter Registration",
     icon: <UserPlus />,
-    description: "Register online via the National Voters' Service Portal (NVSP) or Voter Portal using Form 6.",
-    action: "Visit voters.eci.gov.in to apply."
+    description:
+      "Register online via the National Voters' Service Portal (NVSP) or Voter Portal using Form 6.",
+    action: "Visit voters.eci.gov.in to apply.",
   },
   {
     id: 3,
     title: "Voter ID (EPIC)",
     icon: <CreditCard />,
-    description: "Once registered, your Electors Photo Identity Card (EPIC) will be mailed to you. You can also download the digital version (e-EPIC).",
-    action: "Track your application status online."
+    description:
+      "Once registered, your Electors Photo Identity Card (EPIC) will be mailed to you. You can also download the digital version (e-EPIC).",
+    action: "Track your application status online.",
   },
   {
     id: 4,
     title: "Electoral Roll",
     icon: <Search />,
-    description: "Before voting day, verify your name in the electoral roll (voter list) of your constituency. Even with an EPIC, you can only vote if your name is on the list.",
-    action: "Search your name in the ECI Voter List."
+    description:
+      "Before voting day, verify your name in the electoral roll (voter list) of your constituency. Even with an EPIC, you can only vote if your name is on the list.",
+    action: "Search your name in the ECI Voter List.",
   },
   {
     id: 5,
     title: "Constituencies",
     icon: <Map />,
-    description: "India is divided into constituencies for Lok Sabha (national) and Vidhan Sabha (state). You will vote for a representative for your specific area.",
-    action: "Find out your Parliamentary & Assembly constituencies."
+    description:
+      "India is divided into constituencies for Lok Sabha (national) and Vidhan Sabha (state). You will vote for a representative for your specific area.",
+    action: "Find out your Parliamentary & Assembly constituencies.",
   },
   {
     id: 6,
     title: "Polling Day",
     icon: <Vote />,
-    description: "Go to your designated polling booth. Press the button against the candidate of your choice on the Electronic Voting Machine (EVM) and check the VVPAT slip.",
-    action: "Carry your EPIC or other approved ID."
+    description:
+      "Go to your designated polling booth. Press the button against the candidate of your choice on the Electronic Voting Machine (EVM) and check the VVPAT slip.",
+    action: "Carry your EPIC or other approved ID.",
   },
   {
     id: 7,
     title: "Vote Counting",
     icon: <BarChart />,
-    description: "Votes are counted under strict security on a designated day. The candidate with the most votes in the constituency wins.",
-    action: "Follow the election results on ECI website or news."
-  }
+    description:
+      "Votes are counted under strict security on a designated day. The candidate with the most votes in the constituency wins.",
+    action: "Follow the election results on ECI website or news.",
+  },
 ];
 
 function GuidedJourney() {
   const [activeStep, setActiveStep] = useState(0);
-  const journeyProgress = JOURNEY_STEPS.length > 1
-    ? `${(activeStep / (JOURNEY_STEPS.length - 1)) * 100}%`
-    : '0%';
+  const journeyProgress =
+    JOURNEY_STEPS.length > 1
+      ? `${(activeStep / (JOURNEY_STEPS.length - 1)) * 100}%`
+      : "0%";
 
   const nextStep = () => {
-    if (activeStep < JOURNEY_STEPS.length - 1) setActiveStep(prev => prev + 1);
+    if (activeStep < JOURNEY_STEPS.length - 1)
+      setActiveStep((prev) => prev + 1);
   };
 
   const prevStep = () => {
-    if (activeStep > 0) setActiveStep(prev => prev - 1);
+    if (activeStep > 0) setActiveStep((prev) => prev - 1);
   };
 
   return (
@@ -333,19 +469,25 @@ function GuidedJourney() {
       <div className="container">
         <div className="section-header text-center mb-12">
           <h2 className="text-gradient">Your Election Journey</h2>
-          <p className="text-muted">A step-by-step guide from registration to result day.</p>
+          <p className="text-muted">
+            A step-by-step guide from registration to result day.
+          </p>
         </div>
 
         <div className="journey-layout">
           <div className="journey-tracker-shell glass-panel">
             <div className="journey-tracker">
               <div className="tracker-line"></div>
-              <div className="tracker-line-fill" style={{ width: journeyProgress }}></div>
+              <div
+                className="tracker-line-fill"
+                style={{ width: journeyProgress }}
+              ></div>
               {JOURNEY_STEPS.map((step, index) => (
                 <button
                   key={step.id}
                   type="button"
-                  className={`tracker-node ${index === activeStep ? 'active' : ''} ${index < activeStep ? 'completed' : ''}`}
+                  aria-label={`Go to step ${step.id}: ${step.title}`}
+                  className={`tracker-node ${index === activeStep ? "active" : ""} ${index < activeStep ? "completed" : ""}`}
                   onClick={() => setActiveStep(index)}
                 >
                   <div className="node-icon">{step.icon}</div>
@@ -359,8 +501,13 @@ function GuidedJourney() {
           </div>
 
           <div className="journey-content glass-panel">
-            <div key={JOURNEY_STEPS[activeStep].id} className="journey-stage animate-step-panel">
-              <div className="step-badge">Step {JOURNEY_STEPS[activeStep].id} of {JOURNEY_STEPS.length}</div>
+            <div
+              key={JOURNEY_STEPS[activeStep].id}
+              className="journey-stage animate-step-panel"
+            >
+              <div className="step-badge">
+                Step {JOURNEY_STEPS[activeStep].id} of {JOURNEY_STEPS.length}
+              </div>
 
               <div className="step-header">
                 <div className="step-icon-large text-gradient">
@@ -368,11 +515,15 @@ function GuidedJourney() {
                 </div>
                 <div className="step-header-copy">
                   <div className="step-kicker">Interactive Voter Path</div>
-                  <h3 className="step-title">{JOURNEY_STEPS[activeStep].title}</h3>
+                  <h3 className="step-title">
+                    {JOURNEY_STEPS[activeStep].title}
+                  </h3>
                 </div>
               </div>
 
-              <p className="step-description">{JOURNEY_STEPS[activeStep].description}</p>
+              <p className="step-description">
+                {JOURNEY_STEPS[activeStep].description}
+              </p>
 
               <div className="step-action">
                 <div className="step-action-label">Pro Tip</div>
@@ -406,33 +557,40 @@ function GuidedJourney() {
 // ========== ELI15.jsx ==========
 const ELI15_TERMS = [
   {
-    id: 'evm',
-    term: 'EVM (Electronic Voting Machine)',
+    id: "evm",
+    term: "EVM (Electronic Voting Machine)",
     icon: <Cpu />,
-    simpleExplanation: "Think of it like a giant, super-secure calculator. Instead of adding numbers, it adds up votes. You press a blue button next to the candidate you like, and the machine safely stores your vote.",
-    whyImportant: "It stops invalid votes and makes counting much faster."
+    simpleExplanation:
+      "Think of it like a giant, super-secure calculator. Instead of adding numbers, it adds up votes. You press a blue button next to the candidate you like, and the machine safely stores your vote.",
+    whyImportant: "It stops invalid votes and makes counting much faster.",
   },
   {
-    id: 'vvpat',
-    term: 'VVPAT (Voter Verified Paper Audit Trail)',
+    id: "vvpat",
+    term: "VVPAT (Voter Verified Paper Audit Trail)",
     icon: <FileText />,
-    simpleExplanation: "It's like a receipt printer attached to the EVM. When you press the button to vote, this machine prints a small slip of paper showing who you voted for. You can see it through a glass window for 7 seconds before it drops into a sealed box.",
-    whyImportant: "It proves to you that the machine recorded your vote correctly."
+    simpleExplanation:
+      "It's like a receipt printer attached to the EVM. When you press the button to vote, this machine prints a small slip of paper showing who you voted for. You can see it through a glass window for 7 seconds before it drops into a sealed box.",
+    whyImportant:
+      "It proves to you that the machine recorded your vote correctly.",
   },
   {
-    id: 'constituency',
-    term: 'Constituency',
+    id: "constituency",
+    term: "Constituency",
     icon: <MapIcon />,
-    simpleExplanation: "Imagine your school dividing everyone into smaller groups or 'houses' to elect a house captain. A constituency is just a specific area (like a group of neighborhoods) that gets to elect one person to represent them in the government.",
-    whyImportant: "It ensures every part of the country has a voice in the parliament or state assembly."
+    simpleExplanation:
+      "Imagine your school dividing everyone into smaller groups or 'houses' to elect a house captain. A constituency is just a specific area (like a group of neighborhoods) that gets to elect one person to represent them in the government.",
+    whyImportant:
+      "It ensures every part of the country has a voice in the parliament or state assembly.",
   },
   {
-    id: 'nota',
-    term: 'NOTA (None Of The Above)',
+    id: "nota",
+    term: "NOTA (None Of The Above)",
     icon: <XCircle />,
-    simpleExplanation: "It's a button at the very bottom of the EVM. Pressing it means 'I don't think any of the candidates listed are good enough.' It's a way to officially register your protest.",
-    whyImportant: "It gives voters a voice even when they don't support any candidate."
-  }
+    simpleExplanation:
+      "It's a button at the very bottom of the EVM. Pressing it means 'I don't think any of the candidates listed are good enough.' It's a way to officially register your protest.",
+    whyImportant:
+      "It gives voters a voice even when they don't support any candidate.",
+  },
 ];
 
 function ELI15() {
@@ -444,19 +602,26 @@ function ELI15() {
         <div className="section-header text-center mb-12">
           <div className="section-kicker">
             <BookOpen className="text-accent" />
-            <span className="text-sm font-semibold text-accent uppercase tracking-wider">Explain Like I'm 15</span>
+            <span className="text-sm font-semibold text-accent uppercase tracking-wider">
+              Explain Like I'm 15
+            </span>
           </div>
           <h2 className="text-gradient">Election Terms Simplified</h2>
-          <p className="text-muted">No jargon. Just simple explanations of important voting concepts.</p>
+          <p className="text-muted">
+            No jargon. Just simple explanations of important voting concepts.
+          </p>
         </div>
 
         <div className="eli15-grid">
           <div className="terms-surface glass-panel">
             <div className="terms-list">
-              {ELI15_TERMS.map(term => (
+              {ELI15_TERMS.map((term) => (
                 <button
                   key={term.id}
-                  className={`term-btn ${activeTerm === term.id ? 'active' : ''}`}
+                  id={`term-${term.id}`}
+                  aria-expanded={activeTerm === term.id}
+                  aria-controls={`explanation-${term.id}`}
+                  className={`term-btn ${activeTerm === term.id ? "active" : ""}`}
                   onClick={() => setActiveTerm(term.id)}
                 >
                   <span className="term-icon">{term.icon}</span>
@@ -467,10 +632,13 @@ function ELI15() {
           </div>
 
           <div className="term-explanation glass-panel">
-            {ELI15_TERMS.map(term => (
+            {ELI15_TERMS.map((term) => (
               <div
                 key={term.id}
-                className={`explanation-content animate-fade-in ${activeTerm === term.id ? 'block' : 'hidden'}`}
+                id={`explanation-${term.id}`}
+                role="region"
+                aria-labelledby={`term-${term.id}`}
+                className={`explanation-content animate-fade-in ${activeTerm === term.id ? "block" : "hidden"}`}
               >
                 <div className="explanation-icon text-accent mb-4">
                   {React.cloneElement(term.icon, { size: 48 })}
@@ -507,7 +675,9 @@ function PollingInfo() {
             </div>
             <h2>Find Your Polling Booth</h2>
             <p className="text-muted polling-info-copy">
-              The Election Commission of India provides multiple ways to find your constituency and exact polling booth location. Do this a few days before the election.
+              The Election Commission of India provides multiple ways to find
+              your constituency and exact polling booth location. Do this a few
+              days before the election.
             </p>
           </div>
 
@@ -515,12 +685,16 @@ function PollingInfo() {
             <div className="info-option-card">
               <Search className="option-icon" />
               <h3>Online Search</h3>
-              <p>Visit the official ECI Electoral Search portal to find your details using your EPIC number.</p>
+              <p>
+                Visit the official ECI Electoral Search portal to find your
+                details using your EPIC number.
+              </p>
               <a
                 href="https://electoralsearch.eci.gov.in/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary"
+                aria-label="Search your polling booth online"
               >
                 Search Online <ExternalLink size={16} />
               </a>
@@ -529,8 +703,15 @@ function PollingInfo() {
             <div className="info-option-card">
               <Phone className="option-icon" />
               <h3>Voter Helpline</h3>
-              <p>Call the toll-free national voter helpline for assistance or use the Voter Helpline App.</p>
-              <a href="tel:1950" className="btn btn-secondary">
+              <p>
+                Call the toll-free national voter helpline for assistance or use
+                the Voter Helpline App.
+              </p>
+              <a
+                href="tel:1950"
+                className="btn btn-secondary"
+                aria-label="Call voter helpline 1950"
+              >
                 Call 1950
               </a>
             </div>
@@ -700,22 +881,67 @@ Try asking about:
 • **"What is a constituency?"** — Parliamentary & Assembly seats
 • **"What is MCC?"** — Model Code of Conduct
 
-For more detailed or specific questions, please ensure your Gemini API key is configured correctly.`
+For more detailed or specific questions, please ensure your Gemini API key is configured correctly.`,
 };
 
 function getOfflineResponse(query) {
   const q = query.toLowerCase();
 
-  if (q.includes('how') && (q.includes('vote') || q.includes('voting'))) return OFFLINE_RESPONSES.vote;
-  if (q.includes('register') || q.includes('registration') || q.includes('form 6') || q.includes('nvsp')) return OFFLINE_RESPONSES.register;
-  if (q.includes('document') || q.includes('id proof') || q.includes('id card') || q.includes('voter id') || q.includes('epic')) return OFFLINE_RESPONSES.documents;
-  if (q.includes('evm') || q.includes('voting machine') || q.includes('electronic')) return OFFLINE_RESPONSES.evm;
-  if (q.includes('vvpat') || q.includes('paper trail') || q.includes('audit')) return OFFLINE_RESPONSES.vvpat;
-  if (q.includes('nota') || q.includes('none of the above')) return OFFLINE_RESPONSES.nota;
-  if (q.includes('booth') || q.includes('polling') || q.includes('station') || q.includes('where do i')) return OFFLINE_RESPONSES.booth;
-  if (q.includes('constituency') || q.includes('lok sabha') || q.includes('vidhan sabha') || q.includes('mla') || q.includes('mp')) return OFFLINE_RESPONSES.constituency;
-  if (q.includes('mcc') || q.includes('model code') || q.includes('code of conduct') || q.includes('campaign')) return OFFLINE_RESPONSES.mcc;
-  if (q.includes('hello') || q.includes('hi') || q.includes('namaste') || q.includes('hey')) {
+  if (q.includes("how") && (q.includes("vote") || q.includes("voting")))
+    return OFFLINE_RESPONSES.vote;
+  if (
+    q.includes("register") ||
+    q.includes("registration") ||
+    q.includes("form 6") ||
+    q.includes("nvsp")
+  )
+    return OFFLINE_RESPONSES.register;
+  if (
+    q.includes("document") ||
+    q.includes("id proof") ||
+    q.includes("id card") ||
+    q.includes("voter id") ||
+    q.includes("epic")
+  )
+    return OFFLINE_RESPONSES.documents;
+  if (
+    q.includes("evm") ||
+    q.includes("voting machine") ||
+    q.includes("electronic")
+  )
+    return OFFLINE_RESPONSES.evm;
+  if (q.includes("vvpat") || q.includes("paper trail") || q.includes("audit"))
+    return OFFLINE_RESPONSES.vvpat;
+  if (q.includes("nota") || q.includes("none of the above"))
+    return OFFLINE_RESPONSES.nota;
+  if (
+    q.includes("booth") ||
+    q.includes("polling") ||
+    q.includes("station") ||
+    q.includes("where do i")
+  )
+    return OFFLINE_RESPONSES.booth;
+  if (
+    q.includes("constituency") ||
+    q.includes("lok sabha") ||
+    q.includes("vidhan sabha") ||
+    q.includes("mla") ||
+    q.includes("mp")
+  )
+    return OFFLINE_RESPONSES.constituency;
+  if (
+    q.includes("mcc") ||
+    q.includes("model code") ||
+    q.includes("code of conduct") ||
+    q.includes("campaign")
+  )
+    return OFFLINE_RESPONSES.mcc;
+  if (
+    q.includes("hello") ||
+    q.includes("hi") ||
+    q.includes("namaste") ||
+    q.includes("hey")
+  ) {
     return "Namaste! 🙏 I'm your Indian Election Assistant. I can help you understand voter registration, polling day procedures, EVMs, VVPAT, and much more. What would you like to know?";
   }
 
@@ -725,23 +951,23 @@ function getOfflineResponse(query) {
 const initialMessages = [
   {
     id: 1,
-    sender: 'bot',
-    text: "Namaste! I'm your Indian Election Assistant. I can help you with registration steps, finding your polling booth, or understanding documents needed for voting. How can I help you today?"
-  }
+    sender: "bot",
+    text: "Namaste! I'm your Indian Election Assistant. I can help you with registration steps, finding your polling booth, or understanding documents needed for voting. How can I help you today?",
+  },
 ];
 
 const QUICK_REPLIES = [
   "How do I vote in India?",
   "What documents are needed for voter ID?",
-  "How do I check my polling booth?"
+  "How do I check my polling booth?",
 ];
 
 function AssistantChat() {
   const [messages, setMessages] = useState(() => {
-    const saved = localStorage.getItem('electionChatHistory');
+    const saved = localStorage.getItem("electionChatHistory");
     return saved ? JSON.parse(saved) : initialMessages;
   });
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isOnline, setIsOnline] = useState(false); // tracks if Gemini is available
@@ -758,12 +984,12 @@ function AssistantChat() {
 
     const newUserMessage = {
       id: messageIdRef.current++,
-      sender: 'user',
-      text: text
+      sender: "user",
+      text: text,
     };
 
-    setMessages(prev => [...prev, newUserMessage]);
-    setInputValue('');
+    setMessages((prev) => [...prev, newUserMessage]);
+    setInputValue("");
     setIsTyping(true);
 
     try {
@@ -772,22 +998,22 @@ function AssistantChat() {
       if (chatInstance.current && isOnline) {
         // Online mode â€” use Gemini API
         const result = await chatInstance.current.sendMessage({
-          message: text
+          message: text,
         });
         responseText = result.text;
       } else {
         // Offline mode â€” use built-in knowledge base
-        await new Promise(resolve => setTimeout(resolve, 600)); // simulate thinking
+        await new Promise((resolve) => setTimeout(resolve, 600)); // simulate thinking
         responseText = getOfflineResponse(text);
       }
 
       const newBotMessage = {
         id: messageIdRef.current++,
-        sender: 'bot',
-        text: responseText
+        sender: "bot",
+        text: responseText,
       };
 
-      setMessages(prev => [...prev, newBotMessage]);
+      setMessages((prev) => [...prev, newBotMessage]);
     } catch (error) {
       console.error("AI Error:", error);
 
@@ -795,15 +1021,15 @@ function AssistantChat() {
       setIsOnline(false);
       chatInstance.current = null;
 
-      await new Promise(resolve => setTimeout(resolve, 400));
+      await new Promise((resolve) => setTimeout(resolve, 400));
       const fallbackResponse = getOfflineResponse(text);
 
       const fallbackMessage = {
         id: messageIdRef.current++,
-        sender: 'bot',
-        text: fallbackResponse
+        sender: "bot",
+        text: fallbackResponse,
       };
-      setMessages(prev => [...prev, fallbackMessage]);
+      setMessages((prev) => [...prev, fallbackMessage]);
     } finally {
       setIsTyping(false);
     }
@@ -817,7 +1043,9 @@ function AssistantChat() {
     const initAI = async () => {
       const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
       if (!API_KEY) {
-        console.warn("No API key found. Running in offline mode with built-in knowledge base.");
+        console.warn(
+          "No API key found. Running in offline mode with built-in knowledge base.",
+        );
         return;
       }
 
@@ -825,8 +1053,10 @@ function AssistantChat() {
         const { GoogleGenAI } = await import("@google/genai");
         const cleanKey = API_KEY.trim();
 
-        if (!cleanKey.startsWith('AIza')) {
-          console.warn("API key doesn't start with 'AIza'. Running in offline mode.");
+        if (!cleanKey.startsWith("AIza")) {
+          console.warn(
+            "API key doesn't start with 'AIza'. Running in offline mode.",
+          );
           return;
         }
 
@@ -834,10 +1064,10 @@ function AssistantChat() {
 
         // Convert existing message history to SDK format
         const history = initialHistoryRef.current
-          .filter((msg, index) => !(index === 0 && msg.sender === 'bot'))
-          .map(msg => ({
-            role: msg.sender === 'bot' ? 'model' : 'user',
-            parts: [{ text: msg.text }]
+          .filter((msg, index) => !(index === 0 && msg.sender === "bot"))
+          .map((msg) => ({
+            role: msg.sender === "bot" ? "model" : "user",
+            parts: [{ text: msg.text }],
           }));
 
         chatInstance.current = ai.chats.create({
@@ -846,7 +1076,7 @@ function AssistantChat() {
           config: {
             systemInstruction: SYSTEM_INSTRUCTION,
             maxOutputTokens: 1000,
-          }
+          },
         });
         setIsOnline(true);
         console.log("✅ Gemini AI initialized successfully (online mode)");
@@ -860,23 +1090,25 @@ function AssistantChat() {
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   };
 
   useEffect(() => {
-    localStorage.setItem('electionChatHistory', JSON.stringify(messages));
+    localStorage.setItem("electionChatHistory", JSON.stringify(messages));
     scrollToBottom();
   }, [messages, isTyping]);
 
   useEffect(() => {
     // Initialize Speech Recognition
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = false;
       recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = 'en-IN'; // Optimized for Indian English
+      recognitionRef.current.lang = "en-IN"; // Optimized for Indian English
 
       recognitionRef.current.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
@@ -887,7 +1119,7 @@ function AssistantChat() {
       };
 
       recognitionRef.current.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
+        console.error("Speech recognition error:", event.error);
         setIsRecording(false);
       };
 
@@ -913,14 +1145,14 @@ function AssistantChat() {
       recognitionRef.current.stop();
       setIsRecording(false);
     } else {
-      setInputValue('');
+      setInputValue("");
       recognitionRef.current.start();
       setIsRecording(true);
     }
   };
 
   const renderMessageText = (text) => {
-    return text.split('\n').map((line, i) => {
+    return text.split("\n").map((line, i) => {
       // Basic markdown-like link parsing [text](url)
       const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
       let parts = [];
@@ -929,17 +1161,29 @@ function AssistantChat() {
 
       while ((match = linkRegex.exec(line)) !== null) {
         if (match.index > lastIndex) {
-          parts.push(<span key={`text-${i}-${lastIndex}`}>{line.substring(lastIndex, match.index)}</span>);
+          parts.push(
+            <span key={`text-${i}-${lastIndex}`}>
+              {line.substring(lastIndex, match.index)}
+            </span>,
+          );
         }
         parts.push(
-          <a key={`link-${i}-${match.index}`} href={match[2]} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+          <a
+            key={`link-${i}-${match.index}`}
+            href={match[2]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline"
+          >
             {match[1]}
-          </a>
+          </a>,
         );
         lastIndex = match.index + match[0].length;
       }
       if (lastIndex < line.length) {
-        parts.push(<span key={`text-${i}-end`}>{line.substring(lastIndex)}</span>);
+        parts.push(
+          <span key={`text-${i}-end`}>{line.substring(lastIndex)}</span>,
+        );
       }
 
       // Handle bold **text**
@@ -948,15 +1192,15 @@ function AssistantChat() {
       return (
         <span key={i}>
           {finalParts.map((part) => {
-            if (typeof part === 'string') {
+            if (typeof part === "string") {
               const boldParts = part.split(/\*\*(.*?)\*\*/g);
               return boldParts.map((bp, bIdx) =>
-                bIdx % 2 === 1 ? <strong key={bIdx}>{bp}</strong> : bp
+                bIdx % 2 === 1 ? <strong key={bIdx}>{bp}</strong> : bp,
               );
             }
             return part;
           })}
-          {i !== text.split('\n').length - 1 && <br />}
+          {i !== text.split("\n").length - 1 && <br />}
         </span>
       );
     });
@@ -969,29 +1213,38 @@ function AssistantChat() {
           <div className="section-kicker">
             <Sparkles className="text-accent" />
             <span className="text-sm font-semibold text-accent uppercase tracking-wider">
-              {isOnline ? 'AI-Powered Assistant' : 'Election Knowledge Base'}
+              {isOnline ? "AI-Powered Assistant" : "Election Knowledge Base"}
             </span>
           </div>
           <h2 className="text-gradient">Ask the Assistant</h2>
           <p className="text-muted">
             {isOnline
               ? "Have a specific question about voting in India? Our AI is here to help 24/7."
-              : "Ask common questions about Indian elections. Powered by a built-in knowledge base."
-            }
+              : "Ask common questions about Indian elections. Powered by a built-in knowledge base."}
           </p>
         </div>
 
         <div className="chat-container glass-panel">
           <div className="chat-aura chat-aura-1"></div>
           <div className="chat-aura chat-aura-2"></div>
-          <div className="chat-messages" ref={chatContainerRef}>
+          <div
+            className="chat-messages"
+            ref={chatContainerRef}
+            aria-live="polite"
+          >
             {messages.map((msg) => (
               <div key={msg.id} className={`message-wrapper ${msg.sender}`}>
                 <div className="message-avatar">
-                  {msg.sender === 'bot' ? <Bot size={20} /> : <User size={20} />}
+                  {msg.sender === "bot" ? (
+                    <Bot size={20} />
+                  ) : (
+                    <User size={20} />
+                  )}
                 </div>
                 <div className="message-content">
-                  {msg.sender === 'bot' ? renderMessageText(msg.text) : msg.text}
+                  {msg.sender === "bot"
+                    ? renderMessageText(msg.text)
+                    : msg.text}
                 </div>
               </div>
             ))}
@@ -1001,7 +1254,9 @@ function AssistantChat() {
                   <Bot size={20} />
                 </div>
                 <div className="message-content typing-indicator">
-                  <span></span><span></span><span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
                 </div>
               </div>
             )}
@@ -1022,26 +1277,50 @@ function AssistantChat() {
               ))}
             </div>
 
-            <form className="chat-input-area" onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}>
+            <form
+              className="chat-input-area"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSendMessage();
+              }}
+            >
+              <label htmlFor="chat-input" className="sr-only">
+                Type your message
+              </label>
               <input
+                id="chat-input"
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder={isRecording ? "Listening..." : "E.g., What is the Model Code of Conduct?"}
+                placeholder={
+                  isRecording
+                    ? "Listening..."
+                    : "E.g., What is the Model Code of Conduct?"
+                }
                 className="chat-input"
                 disabled={isRecording || isTyping}
               />
               <button
                 type="button"
-                className={`btn btn-icon mic-btn ${isRecording ? 'recording' : ''}`}
+                className={`btn btn-icon mic-btn ${isRecording ? "recording" : ""}`}
                 onClick={toggleRecording}
                 disabled={isTyping}
                 title="Voice Input"
+                aria-label="Toggle voice input"
               >
-                <Mic size={24} strokeWidth={isRecording ? 3 : 2} />
+                <Mic
+                  size={24}
+                  strokeWidth={isRecording ? 3 : 2}
+                  aria-hidden="true"
+                />
               </button>
-              <button type="submit" className="btn btn-primary btn-icon send-btn" disabled={!inputValue.trim() || isTyping}>
-                <Send size={20} />
+              <button
+                type="submit"
+                className="btn btn-primary btn-icon send-btn"
+                disabled={!inputValue.trim() || isTyping}
+                aria-label="Send message"
+              >
+                <Send size={20} aria-hidden="true" />
               </button>
             </form>
           </div>
@@ -1054,28 +1333,57 @@ function AssistantChat() {
 // ========== PersonalizedGuidance.jsx ==========
 const STATES = [
   // 28 States
-  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-  "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
-  "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-  "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
   // 8 Union Territories
-  "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu",
-  "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
+  "Andaman and Nicobar Islands",
+  "Chandigarh",
+  "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi",
+  "Jammu and Kashmir",
+  "Ladakh",
+  "Lakshadweep",
+  "Puducherry",
 ];
 
-const PROFILE_STORAGE_KEY = 'voterProfile_v3';
+const PROFILE_STORAGE_KEY = "voterProfile_v3";
 const hasRequiredProfile = (profile) => Boolean(profile?.age && profile?.state);
 
 function PersonalizedGuidance({ onComplete }) {
   const [step, setStep] = useState(1);
   const [profile, setProfile] = useState({
-    age: '',
-    state: '',
-    hasVoterId: null
+    age: "",
+    state: "",
+    hasVoterId: null,
   });
 
-  const handleNext = () => setStep(prev => prev + 1);
+  const handleNext = () => setStep((prev) => prev + 1);
 
   const finishOnboarding = () => {
     onComplete(profile);
@@ -1085,7 +1393,10 @@ function PersonalizedGuidance({ onComplete }) {
     <div className="onboarding-overlay">
       <div className="onboarding-modal glass-panel animate-fade-in">
         <div className="onboarding-progress">
-          <div className="progress-bar" style={{ width: `${(step / 4) * 100}%` }}></div>
+          <div
+            className="progress-bar"
+            style={{ width: `${(step / 4) * 100}%` }}
+          ></div>
         </div>
 
         <div className="onboarding-header">
@@ -1100,22 +1411,31 @@ function PersonalizedGuidance({ onComplete }) {
               <h3>How old are you?</h3>
               <div className="options-grid">
                 <button
-                  className={`option-card ${profile.age === 'under18' ? 'selected' : ''}`}
-                  onClick={() => { setProfile({ ...profile, age: 'under18' }); handleNext(); }}
+                  className={`option-card ${profile.age === "under18" ? "selected" : ""}`}
+                  onClick={() => {
+                    setProfile({ ...profile, age: "under18" });
+                    handleNext();
+                  }}
                 >
                   Under 18
                   <span>Future voter</span>
                 </button>
                 <button
-                  className={`option-card ${profile.age === '18-21' ? 'selected' : ''}`}
-                  onClick={() => { setProfile({ ...profile, age: '18-21' }); handleNext(); }}
+                  className={`option-card ${profile.age === "18-21" ? "selected" : ""}`}
+                  onClick={() => {
+                    setProfile({ ...profile, age: "18-21" });
+                    handleNext();
+                  }}
                 >
                   18-21
                   <span>First-time voter! 🎉</span>
                 </button>
                 <button
-                  className={`option-card ${profile.age === 'over21' ? 'selected' : ''}`}
-                  onClick={() => { setProfile({ ...profile, age: 'over21' }); handleNext(); }}
+                  className={`option-card ${profile.age === "over21" ? "selected" : ""}`}
+                  onClick={() => {
+                    setProfile({ ...profile, age: "over21" });
+                    handleNext();
+                  }}
                 >
                   Over 21
                   <span>Experienced voter</span>
@@ -1126,10 +1446,16 @@ function PersonalizedGuidance({ onComplete }) {
 
           {step === 2 && (
             <div className="step-content animate-fade-in">
-              <MapPin className="step-icon" size={48} />
+              <MapPin className="step-icon" size={48} aria-hidden="true" />
               <h3>Where do you live?</h3>
-              <p className="subtitle">We'll show you specific instructions for your state</p>
+              <p className="subtitle">
+                We'll show you specific instructions for your state
+              </p>
+              <label htmlFor="state-select" className="sr-only">
+                Select your state
+              </label>
               <select
+                id="state-select"
                 className="state-select"
                 value={profile.state}
                 onChange={(e) => {
@@ -1138,8 +1464,10 @@ function PersonalizedGuidance({ onComplete }) {
                 }}
               >
                 <option value="">Select your state</option>
-                {STATES.map(state => (
-                  <option key={state} value={state}>{state}</option>
+                {STATES.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
                 ))}
               </select>
             </div>
@@ -1151,14 +1479,20 @@ function PersonalizedGuidance({ onComplete }) {
               <h3>Do you have a Voter ID (EPIC)?</h3>
               <div className="options-grid">
                 <button
-                  className={`option-card ${profile.hasVoterId === true ? 'selected' : ''}`}
-                  onClick={() => { setProfile({ ...profile, hasVoterId: true }); handleNext(); }}
+                  className={`option-card ${profile.hasVoterId === true ? "selected" : ""}`}
+                  onClick={() => {
+                    setProfile({ ...profile, hasVoterId: true });
+                    handleNext();
+                  }}
                 >
                   Yes, I have it
                 </button>
                 <button
-                  className={`option-card ${profile.hasVoterId === false ? 'selected' : ''}`}
-                  onClick={() => { setProfile({ ...profile, hasVoterId: false }); handleNext(); }}
+                  className={`option-card ${profile.hasVoterId === false ? "selected" : ""}`}
+                  onClick={() => {
+                    setProfile({ ...profile, hasVoterId: false });
+                    handleNext();
+                  }}
                 >
                   No, I need to apply
                 </button>
@@ -1171,26 +1505,52 @@ function PersonalizedGuidance({ onComplete }) {
               <CheckCircle2 className="step-icon text-success" size={64} />
               <h3>All set!</h3>
               <p>We've customized your guide based on your profile.</p>
-              {profile.state && <p className="profile-summary">Region: {profile.state}</p>}
-              {profile.age === '18-21' && <p className="profile-summary">Focus: First-Time Voter Guide</p>}
-              {profile.hasVoterId === false && <p className="profile-summary">Priority: Voter ID Application</p>}
+              {profile.state && (
+                <p className="profile-summary">Region: {profile.state}</p>
+              )}
+              {profile.age === "18-21" && (
+                <p className="profile-summary">Focus: First-Time Voter Guide</p>
+              )}
+              {profile.hasVoterId === false && (
+                <p className="profile-summary">
+                  Priority: Voter ID Application
+                </p>
+              )}
 
-              <button className="btn btn-primary onboarding-cta" onClick={finishOnboarding}>
+              <button
+                className="btn btn-primary onboarding-cta"
+                onClick={finishOnboarding}
+              >
                 Go to Dashboard
               </button>
 
               <div className="onboarding-actions">
                 {profile.hasVoterId === false && (
-                  <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener noreferrer" className="action-link">
+                  <a
+                    href="https://voters.eci.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="action-link"
+                  >
                     Apply for Voter ID (Form 6) →
                   </a>
                 )}
-                {profile.age === '18-21' && (
-                  <a href="https://www.eci.gov.in/voter/voter-education/" target="_blank" rel="noopener noreferrer" className="action-link">
+                {profile.age === "18-21" && (
+                  <a
+                    href="https://www.eci.gov.in/voter/voter-education/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="action-link"
+                  >
                     First-Time Voter Guide →
                   </a>
                 )}
-                <a href="https://electoralsearch.eci.gov.in/" target="_blank" rel="noopener noreferrer" className="action-link">
+                <a
+                  href="https://electoralsearch.eci.gov.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="action-link"
+                >
                   Search Name in Voter List →
                 </a>
               </div>
@@ -1200,14 +1560,18 @@ function PersonalizedGuidance({ onComplete }) {
 
         {step > 1 && step < 4 && (
           <div className="onboarding-footer">
-            <button className="btn-text" onClick={() => setStep(prev => prev - 1)}>Back</button>
+            <button
+              className="btn-text"
+              onClick={() => setStep((prev) => prev - 1)}
+            >
+              Back
+            </button>
           </div>
         )}
       </div>
     </div>
   );
 }
-
 
 // ========== App.jsx ==========
 function App() {
@@ -1223,13 +1587,20 @@ function App() {
     window.scrollTo(0, 0);
   };
 
-
   return (
     <>
       <Header />
-      {shouldShowOnboarding && <PersonalizedGuidance onComplete={handleOnboardingComplete} />}
+      {shouldShowOnboarding && (
+        <PersonalizedGuidance onComplete={handleOnboardingComplete} />
+      )}
 
-      <main className="app-shell" style={{ filter: shouldShowOnboarding ? 'blur(4px)' : 'none', transition: 'filter 0.3s ease' }}>
+      <main
+        className="app-shell"
+        style={{
+          filter: shouldShowOnboarding ? "blur(4px)" : "none",
+          transition: "filter 0.3s ease",
+        }}
+      >
         <Hero userProfile={userProfile} />
         <Timeline userProfile={userProfile} />
         <GuidedJourney />
@@ -1237,7 +1608,6 @@ function App() {
         <PollingInfo />
         <AssistantChat />
       </main>
-
 
       <footer className="app-footer">
         <div className="container">
