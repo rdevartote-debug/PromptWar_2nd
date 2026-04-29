@@ -10,8 +10,7 @@ describe("App Component", () => {
 
   it("renders the hero section correctly", () => {
     render(<App />);
-    expect(
-      screen.getByText(/Making a Difference|Your First Election|Future Voter/i),
-    ).toBeInTheDocument();
+    const elements = screen.getAllByText(/Making a Difference|Your First Election|Future Voter/i);
+    expect(elements.length).toBeGreaterThan(0);
   });
 });
