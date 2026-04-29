@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { BookOpen, Cpu, FileText, Map as MapIcon, XCircle } from "lucide-react";
+import { analytics } from "../firebase";
+import { logEvent } from "firebase/analytics";
 
 const ELI15_TERMS = [
   {
@@ -68,7 +70,19 @@ export default function TermDictionary() {
                   aria-expanded={activeTerm === term.id}
                   aria-controls={`explanation-${term.id}`}
                   className={`term-btn ${activeTerm === term.id ? "active" : ""}`}
-                  onClick={() => setActiveTerm(term.id)}
+                  onClick={() => {
+                    setActiveTerm(term.id);
+                    if (analytics) {
+                      try {
+                        logEvent(analytics, "select_content", {
+                          content_type: "eli15_term",
+                          item_id: term.id,
+                        });
+                      } catch (err) {
+                        console.error("Analytics error", err);
+                      }
+                    }
+                  }}
                 >
                   <span className="term-icon">{term.icon}</span>
                   <span className="term-name">{term.term}</span>

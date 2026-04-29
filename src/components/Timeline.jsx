@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Calendar, CheckCircle2, Clock } from "lucide-react";
+import { db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 const timelineEvents = [
   {
@@ -46,6 +48,7 @@ const timelineEvents = [
 
 export default function Timeline({ userProfile }) {
   const [activeEvent, setActiveEvent] = useState(null);
+  const [saveStatus, setSaveStatus] = useState("idle");
 
   // Helper function to get mock dates based on state
   const getStateDates = (state) => {
@@ -160,6 +163,25 @@ export default function Timeline({ userProfile }) {
       ? `${(highlightedIndex / (personalizedEvents.length - 1)) * 100}%`
       : "0%";
 
+  const saveTimelineToProfile = async () => {
+    if (!userProfile?.state) return;
+    setSaveStatus("saving");
+    try {
+      await addDoc(collection(db, "user_timelines"), {
+        state: userProfile.state,
+        age: userProfile.age,
+        events: personalizedEvents,
+        savedAt: new Date(),
+      });
+      setSaveStatus("success");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    } catch (err) {
+      console.error("Failed to save timeline:", err);
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    }
+  };
+
   return (
     <section id="timeline" className="timeline-section">
       <div className="container">
@@ -172,7 +194,32 @@ export default function Timeline({ userProfile }) {
               ? `Here are the critical dates for ${userProfile.state}.`
               : "Stay on top of critical dates to ensure your voice is heard."}
           </p>
+          {userProfile?.state && (
+            <div className="mt-6 flex justify-center">
+              <button
+                onClick={saveTimelineToProfile}
+                disabled={saveStatus === "saving"}
+                className="btn btn-primary btn-sm glass-panel"
+                style={{ cursor: saveStatus === "saving" ? "not-allowed" : "pointer" }}
+              >
+                {saveStatus === "saving" ? "Saving..." : "Save to Profile"}
+              </button>
+            </div>
+          )}
         </div>
+
+        {saveStatus === "success" && (
+          <div className="fixed bottom-6 right-6 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-fade-in glass-panel border-green-400">
+            <CheckCircle2 size={20} />
+            <span className="font-medium">Timeline saved successfully!</span>
+          </div>
+        )}
+        
+        {saveStatus === "error" && (
+          <div className="fixed bottom-6 right-6 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-fade-in glass-panel border-red-400">
+            <span className="font-medium">Failed to save timeline.</span>
+          </div>
+        )}
 
         <div className="timeline-container">
           <div className="timeline-track">

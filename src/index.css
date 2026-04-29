@@ -15,7 +15,8 @@
   --surface-green: rgba(22, 141, 102, 0.18);
 
   --text-color: #f3f7ff;
-  --text-muted: #97a6c5;
+  --text-muted: #b0bdd6;
+  --focus-ring: rgba(133, 166, 255, 0.7);
   --text-soft: #c7d3eb;
 
   --primary-color: #61a6ff;
@@ -104,6 +105,30 @@ button,
 input,
 select {
   font: inherit;
+}
+
+/* ===== Global Focus-Visible Styles (a11y) ===== */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex="0"]:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 6px rgba(133, 166, 255, 0.18);
+  transition: outline var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* Remove default outlines — only focus-visible matters */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+summary:focus:not(:focus-visible),
+[tabindex="0"]:focus:not(:focus-visible) {
+  outline: none;
 }
 
 img,
