@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { User, MapPin, CreditCard, CheckCircle2 } from "lucide-react";
 
 const STATES = [
@@ -42,6 +43,13 @@ const STATES = [
   "Puducherry",
 ];
 
+/**
+ * OnboardingModal — A multi-step onboarding wizard that collects
+ * user age, state, and voter ID status to personalize the election guide.
+ * @param {object} props
+ * @param {function} props.onComplete - Callback fired with the completed profile object.
+ * @returns {JSX.Element} The onboarding modal overlay.
+ */
 export default function OnboardingModal({ onComplete }) {
   const [step, setStep] = useState(1);
   const [profile, setProfile] = useState({
@@ -49,6 +57,16 @@ export default function OnboardingModal({ onComplete }) {
     state: "",
     hasVoterId: null,
   });
+
+  /**
+   * Sanitizes user input by stripping HTML tags and script elements.
+   * @param {string} input - The raw input string.
+   * @returns {string} The sanitized string.
+   */
+  const sanitizeInput = (input) => {
+    if (typeof input !== "string") return input;
+    return input.replace(/<[^>]*>?/gm, "").trim();
+  };
 
   const handleNext = () => setStep((prev) => prev + 1);
 
@@ -126,7 +144,8 @@ export default function OnboardingModal({ onComplete }) {
                 className="state-select"
                 value={profile.state}
                 onChange={(e) => {
-                  setProfile({ ...profile, state: e.target.value });
+                  const sanitizedValue = sanitizeInput(e.target.value);
+                  setProfile({ ...profile, state: sanitizedValue });
                   setTimeout(handleNext, 300); // Slight delay for UX
                 }}
               >
@@ -239,3 +258,8 @@ export default function OnboardingModal({ onComplete }) {
     </div>
   );
 }
+
+OnboardingModal.propTypes = {
+  /** Callback fired when the user completes all onboarding steps. Receives the profile object. */
+  onComplete: PropTypes.func.isRequired,
+};

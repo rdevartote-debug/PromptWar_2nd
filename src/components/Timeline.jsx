@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { Calendar, CheckCircle2, Clock } from "lucide-react";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
@@ -46,11 +47,22 @@ const timelineEvents = [
   },
 ];
 
+/**
+ * Timeline — Displays the 5 key election phases with state-specific
+ * dates and a "Save to Profile" Firestore integration.
+ * @param {object} props
+ * @param {object|null} props.userProfile - The current user profile (age, state).
+ * @returns {JSX.Element} The election timeline section.
+ */
 export default function Timeline({ userProfile }) {
   const [activeEvent, setActiveEvent] = useState(null);
   const [saveStatus, setSaveStatus] = useState("idle");
 
-  // Helper function to get mock dates based on state
+  /**
+   * Returns an array of display dates customized for the user's state.
+   * @param {string|undefined} state - The user's selected state.
+   * @returns {string[]} Array of 5 date strings for each election phase.
+   */
   const getStateDates = (state) => {
     // Return specific mock dates for demonstration purposes
     if (state === "Maharashtra") {
@@ -274,3 +286,16 @@ export default function Timeline({ userProfile }) {
     </section>
   );
 }
+
+Timeline.propTypes = {
+  /** The user profile object containing age and state. */
+  userProfile: PropTypes.shape({
+    age: PropTypes.string,
+    state: PropTypes.string,
+    hasVoterId: PropTypes.bool,
+  }),
+};
+
+Timeline.defaultProps = {
+  userProfile: null,
+};

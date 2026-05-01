@@ -41,6 +41,11 @@ const ELI15_TERMS = [
   },
 ];
 
+/**
+ * TermDictionary — An ELI15 (Explain Like I'm 15) accordion that
+ * simplifies election jargon. Tracks term clicks via Firebase Analytics.
+ * @returns {JSX.Element} The term dictionary section.
+ */
 export default function TermDictionary() {
   const [activeTerm, setActiveTerm] = useState(ELI15_TERMS[0].id);
 

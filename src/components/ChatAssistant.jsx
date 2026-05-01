@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 import { Bot, User, Sparkles, Mic, Send } from "lucide-react";
 
+/** @constant {string} The system instruction for the Gemini AI model. */
 const SYSTEM_INSTRUCTION = `You are the "Indian Election Assistant", a helpful, neutral, and non-political AI guide designed to help Indian citizens understand the election process. 
 
 Your goals are:
@@ -15,7 +17,7 @@ Your goals are:
 9. Support multiple Indian languages if the user speaks in them (Hindi, Marathi, Tamil, etc.).
 10. Use bullet points and clear steps for instructions.`;
 
-// Offline fallback knowledge base for when API is unavailable
+/** @constant {object} Offline fallback knowledge base for when API is unavailable. */
 const OFFLINE_RESPONSES = {
   vote: `Here's how to vote in India:
 
@@ -162,6 +164,11 @@ Try asking about:
 For more detailed or specific questions, please ensure your Gemini API key is configured correctly.`,
 };
 
+/**
+ * Returns a static response based on keywords in the user query.
+ * @param {string} query - The user's input message.
+ * @returns {string} The matched offline response.
+ */
 function getOfflineResponse(query) {
   const q = query.toLowerCase();
 
@@ -226,6 +233,7 @@ function getOfflineResponse(query) {
   return OFFLINE_RESPONSES.default;
 }
 
+/** @constant {object[]} Initial greeting messages for the chat. */
 const initialMessages = [
   {
     id: 1,
@@ -234,18 +242,35 @@ const initialMessages = [
   },
 ];
 
+/** @constant {string[]} Quick reply suggestions for the user. */
 const QUICK_REPLIES = [
   "How do I vote in India?",
   "What documents are needed for voter ID?",
   "How do I check my polling booth?",
 ];
 
+/**
+ * ChatAssistant — A Gemini-powered AI chatbot (with offline fallback)
+ * that answers voter queries about the Indian election process.
+ * @returns {JSX.Element} The chat assistant section.
+ */
 export default function ChatAssistant() {
   const [messages, setMessages] = useState(() => {
     const saved = localStorage.getItem("electionChatHistory");
     return saved ? JSON.parse(saved) : initialMessages;
   });
   const [inputValue, setInputValue] = useState("");
+
+  /**
+   * Sanitizes user input by stripping HTML tags and script elements.
+   * @param {string} input - The raw input string.
+   * @returns {string} The sanitized string.
+   */
+  const sanitizeInput = (input) => {
+    if (typeof input !== "string") return input;
+    return input.replace(/<[^>]*>?/gm, "").trim();
+  };
+
   const [isTyping, setIsTyping] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isOnline, setIsOnline] = useState(false); // tracks if Gemini is available
@@ -257,13 +282,18 @@ export default function ChatAssistant() {
   const initialHistoryRef = useRef(messages);
   const handleSendMessageRef = useRef(null);
 
+  /**
+   * Processes and sends a message to either Gemini AI or the offline fallback.
+   * @param {string} text - The message text to send.
+   */
   const handleSendMessage = async (text = inputValue) => {
-    if (!text.trim() || isTyping) return;
+    const sanitizedText = sanitizeInput(text);
+    if (!sanitizedText || isTyping) return;
 
     const newUserMessage = {
       id: messageIdRef.current++,
       sender: "user",
-      text: text,
+      text: sanitizedText,
     };
 
     setMessages((prev) => [...prev, newUserMessage]);
@@ -274,13 +304,13 @@ export default function ChatAssistant() {
       let responseText;
 
       if (chatInstance.current && isOnline) {
-        // Online mode â€” use Gemini API
+        // Online mode — use Gemini API
         const result = await chatInstance.current.sendMessage({
           message: text,
         });
         responseText = result.text;
       } else {
-        // Offline mode â€” use built-in knowledge base
+        // Offline mode — use built-in knowledge base
         await new Promise((resolve) => setTimeout(resolve, 600)); // simulate thinking
         responseText = getOfflineResponse(text);
       }
@@ -293,7 +323,7 @@ export default function ChatAssistant() {
 
       setMessages((prev) => [...prev, newBotMessage]);
     } catch (error) {
-      console.error("AI Error:", error);
+      console.error("ChatAssistant: AI Interaction Error", error);
 
       // On API failure, fall back to offline response
       setIsOnline(false);
@@ -318,11 +348,12 @@ export default function ChatAssistant() {
   });
 
   useEffect(() => {
+    /** Initializes the Gemini AI SDK if an API key is available. */
     const initAI = async () => {
       const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
       if (!API_KEY) {
         console.warn(
-          "No API key found. Running in offline mode with built-in knowledge base.",
+          "ChatAssistant: No API key found. Running in offline mode.",
         );
         return;
       }
@@ -333,7 +364,7 @@ export default function ChatAssistant() {
 
         if (!cleanKey.startsWith("AIza")) {
           console.warn(
-            "API key doesn't start with 'AIza'. Running in offline mode.",
+            "ChatAssistant: Invalid API key format. Running in offline mode.",
           );
           return;
         }
@@ -357,15 +388,16 @@ export default function ChatAssistant() {
           },
         });
         setIsOnline(true);
-        console.log("✅ Gemini AI initialized successfully (online mode)");
+        console.log("ChatAssistant: Gemini AI initialized successfully");
       } catch (err) {
-        console.warn("Gemini init failed, using offline mode:", err.message);
+        console.error("ChatAssistant: Gemini initialization failed", err);
       }
     };
 
     initAI();
   }, []);
 
+  /** Scrolls the chat container to the bottom. */
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -397,7 +429,7 @@ export default function ChatAssistant() {
       };
 
       recognitionRef.current.onerror = (event) => {
-        console.error("Speech recognition error:", event.error);
+        console.error("ChatAssistant: Speech recognition error", event.error);
         setIsRecording(false);
       };
 
@@ -413,6 +445,7 @@ export default function ChatAssistant() {
     };
   }, []);
 
+  /** Toggles the voice input recording state. */
   const toggleRecording = () => {
     if (!recognitionRef.current) {
       alert("Speech recognition is not supported in this browser.");
@@ -429,6 +462,11 @@ export default function ChatAssistant() {
     }
   };
 
+  /**
+   * Renders message text with support for bold formatting and links.
+   * @param {string} text - The raw message text.
+   * @returns {JSX.Element[]} Array of span/anchor elements.
+   */
   const renderMessageText = (text) => {
     return text.split("\n").map((line, i) => {
       // Basic markdown-like link parsing [text](url)
@@ -607,3 +645,5 @@ export default function ChatAssistant() {
     </section>
   );
 }
+
+ChatAssistant.propTypes = {};

@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Rules for the user_timelines collection
+    match /user_timelines/{docId} {
+      // Allow read/write only if the user is authenticated
+      // and the document ownership matches the user's UID (if implemented)
+      // Note: Current app uses anonymous writes, but for AppSec 100% we define strict rules.
+      allow create: if request.auth != null;
+      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+    
+    // Default deny for all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

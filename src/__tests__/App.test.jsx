@@ -13,4 +13,9 @@ describe("App Component", () => {
     const elements = screen.getAllByText(/Making a Difference|Your First Election|Future Voter/i);
     expect(elements.length).toBeGreaterThan(0);
   });
+
+  it("renders the language selector", () => {
+    render(<App />);
+    expect(screen.getByLabelText(/Select Language/i)).toBeInTheDocument();
+  });
 });
