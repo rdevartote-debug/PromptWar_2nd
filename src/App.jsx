@@ -1,27 +1,23 @@
-import { useState } from "react";
-import "./index.css";
-
+import { lazy, Suspense } from "react";
 import { LanguageProvider, useLanguage } from "./LanguageContext";
+import { Loader2 } from "lucide-react";
 import { t } from "./i18n";
+import { useProfile } from "./hooks/useProfile";
 
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import Timeline from "./components/Timeline";
-import GuidedJourney from "./components/GuidedJourney";
-import TermDictionary from "./components/TermDictionary";
-import PollingInfo from "./components/PollingInfo";
-import ChatAssistant from "./components/ChatAssistant";
-import OnboardingModal from "./components/OnboardingModal";
+import ErrorBoundary from "./components/ErrorBoundary";
 
-/** @constant {string} localStorage key for persisting user profile */
-const PROFILE_STORAGE_KEY = "voterProfile_v3";
+// Lazy-loaded components for optimized initial bundle size
+const Timeline = lazy(() => import("./components/Timeline"));
+const GuidedJourney = lazy(() => import("./components/GuidedJourney"));
+const TermDictionary = lazy(() => import("./components/TermDictionary"));
+const PollingInfo = lazy(() => import("./components/PollingInfo"));
+const ChatAssistant = lazy(() => import("./components/ChatAssistant"));
+const OnboardingModal = lazy(() => import("./components/OnboardingModal"));
+const VoterPledge = lazy(() => import("./components/VoterPledge"));
 
-/**
- * Checks whether the user profile has all required fields.
- * @param {object|null} profile - The user profile object.
- * @returns {boolean} True if the profile contains age and state.
- */
-const hasRequiredProfile = (profile) => Boolean(profile?.age && profile?.state);
+import "./index.css";
 
 /**
  * AppContent — Inner shell that consumes LanguageContext and
@@ -29,45 +25,40 @@ const hasRequiredProfile = (profile) => Boolean(profile?.age && profile?.state);
  * @returns {JSX.Element} The full application UI.
  */
 function AppContent() {
-  const [userProfile, setUserProfile] = useState(() => {
-    const saved = localStorage.getItem(PROFILE_STORAGE_KEY);
-    return saved ? JSON.parse(saved) : null;
-  });
-  const shouldShowOnboarding = !hasRequiredProfile(userProfile);
+  const { userProfile, updateProfile, isComplete } = useProfile();
+  const shouldShowOnboarding = !isComplete;
   const { lang } = useLanguage();
-
-  /**
-   * Handles onboarding completion by persisting the profile to
-   * localStorage and scrolling to the top of the page.
-   * @param {object} profile - The completed user profile.
-   */
-  const handleOnboardingComplete = (profile) => {
-    setUserProfile(profile);
-    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
-    window.scrollTo(0, 0);
-  };
 
   return (
     <>
       <Header />
-      {shouldShowOnboarding && (
-        <OnboardingModal onComplete={handleOnboardingComplete} />
-      )}
-
-      <main
-        className="app-shell"
-        style={{
-          filter: shouldShowOnboarding ? "blur(4px)" : "none",
-          transition: "filter 0.3s ease",
-        }}
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center bg-[#06101d]">
+            <Loader2 className="text-primary animate-spin" size={48} />
+          </div>
+        }
       >
-        <Hero userProfile={userProfile} />
-        <Timeline userProfile={userProfile} />
-        <GuidedJourney />
-        <TermDictionary />
-        <PollingInfo />
-        <ChatAssistant />
-      </main>
+        {shouldShowOnboarding && (
+          <OnboardingModal onComplete={updateProfile} />
+        )}
+
+        <main
+          className="app-shell"
+          style={{
+            filter: shouldShowOnboarding ? "blur(4px)" : "none",
+            transition: "filter 0.3s ease",
+          }}
+        >
+          <Hero userProfile={userProfile} />
+          <Timeline userProfile={userProfile} />
+          <GuidedJourney />
+          <TermDictionary />
+          <PollingInfo />
+          <ChatAssistant />
+          <VoterPledge />
+        </main>
+      </Suspense>
 
       <footer className="app-footer">
         <div className="container">
@@ -80,14 +71,16 @@ function AppContent() {
 
 /**
  * App — Root component that wraps the application in LanguageProvider
- * to enable multilingual support across all child components.
+ * and ErrorBoundary to ensure resilience and multilingual support.
  * @returns {JSX.Element} The wrapped application.
  */
 function App() {
   return (
-    <LanguageProvider>
-      <AppContent />
-    </LanguageProvider>
+    <ErrorBoundary>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 }
 

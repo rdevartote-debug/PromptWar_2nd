@@ -3,43 +3,18 @@ import { BookOpen, Cpu, FileText, Map as MapIcon, XCircle } from "lucide-react";
 import { analytics } from "../firebase";
 import { logEvent } from "firebase/analytics";
 
-const ELI15_TERMS = [
-  {
-    id: "evm",
-    term: "EVM (Electronic Voting Machine)",
-    icon: <Cpu />,
-    simpleExplanation:
-      "Think of it like a giant, super-secure calculator. Instead of adding numbers, it adds up votes. You press a blue button next to the candidate you like, and the machine safely stores your vote.",
-    whyImportant: "It stops invalid votes and makes counting much faster.",
-  },
-  {
-    id: "vvpat",
-    term: "VVPAT (Voter Verified Paper Audit Trail)",
-    icon: <FileText />,
-    simpleExplanation:
-      "It's like a receipt printer attached to the EVM. When you press the button to vote, this machine prints a small slip of paper showing who you voted for. You can see it through a glass window for 7 seconds before it drops into a sealed box.",
-    whyImportant:
-      "It proves to you that the machine recorded your vote correctly.",
-  },
-  {
-    id: "constituency",
-    term: "Constituency",
-    icon: <MapIcon />,
-    simpleExplanation:
-      "Imagine your school dividing everyone into smaller groups or 'houses' to elect a house captain. A constituency is just a specific area (like a group of neighborhoods) that gets to elect one person to represent them in the government.",
-    whyImportant:
-      "It ensures every part of the country has a voice in the parliament or state assembly.",
-  },
-  {
-    id: "nota",
-    term: "NOTA (None Of The Above)",
-    icon: <XCircle />,
-    simpleExplanation:
-      "It's a button at the very bottom of the EVM. Pressing it means 'I don't think any of the candidates listed are good enough.' It's a way to officially register your protest.",
-    whyImportant:
-      "It gives voters a voice even when they don't support any candidate.",
-  },
-];
+import { ELI15_TERMS as RAW_TERMS } from "../constants/electionData";
+
+const ELI15_TERMS = RAW_TERMS.map(term => ({
+  ...term,
+  icon: {
+    Cpu: <Cpu />,
+    FileText: <FileText />,
+    MapIcon: <MapIcon />,
+    XCircle: <XCircle />
+  }[term.iconName]
+}));
+
 
 /**
  * TermDictionary — An ELI15 (Explain Like I'm 15) accordion that

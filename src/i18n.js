@@ -217,6 +217,12 @@ const translations = {
   },
 };
 
+/**
+ * t — Translation helper function that retrieves localized strings based on a dot-notation path.
+ * @param {string} lang - The current active language code (en, hi, mr, ta).
+ * @param {string} path - The dot-notation path to the desired string (e.g., "hero.title").
+ * @returns {any} The translated string, object, or the path itself if not found.
+ */
 export function t(lang, path) {
   const keys = path.split(".");
   let result = translations[lang] || translations.en;
