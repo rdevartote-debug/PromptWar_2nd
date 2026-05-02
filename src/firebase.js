@@ -14,13 +14,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-// Initialize Analytics conditionally since it may not be supported in all environments (e.g., automated tests)
-let analytics = null;
-isSupported().then((supported) => {
-  if (supported) {
-    analytics = getAnalytics(app);
-  }
-});
+const analytics = getAnalytics(app);
 
 export { db, analytics };
+
